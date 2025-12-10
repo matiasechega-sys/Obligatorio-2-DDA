@@ -17,9 +17,6 @@ public class UsuarioService {
         this.repo = repo;
     }
 
-    // ---------------------------------------------------
-    //  CREAR USUARIO
-    // ---------------------------------------------------
     public Usuario crear(Usuario u) {
 
         // Validación de email duplicado
@@ -31,62 +28,39 @@ public class UsuarioService {
         return repo.save(u);
     }
 
-    // ---------------------------------------------------
-    //  LISTAR TODOS
-    // ---------------------------------------------------
     public List<Usuario> listar() {
         return repo.findAll();
     }
 
-    // ---------------------------------------------------
-    //  OBTENER UNO
-    // ---------------------------------------------------
     public Usuario obtener(Long id) {
-        // Mejor práctica: usar una excepción específica como NotFoundException
-        // Por ahora, mantendremos RuntimeException
+       
         return repo.findById(id).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
     }
 
-    // ---------------------------------------------------
-    //  EDITAR
-    // ---------------------------------------------------
     public Usuario editar(Long id, Usuario u) {
         Usuario existente = obtener(id);
 
-        // Actualizar solo los campos que pueden cambiar (generalmente excluyendo ID y fechaRegistro)
         existente.setNombreCompleto(u.getNombreCompleto());
-        
-        // Solo actualizar email si el nuevo no está tomado (Lógica compleja, se simplifica aquí)
+     
         existente.setEmail(u.getEmail()); 
         
-        // La fecha de registro no debería cambiarse
-        // existente.setFechaRegistro(u.getFechaRegistro()); 
-        
-        // 🚨 CRÍTICO: El cambio de Tipo dispara las reglas de negocio
-        // Es importante verificar si el tipo realmente cambió
         TipoUsuario tipoPrevio = existente.getTipo();
         existente.setTipo(u.getTipo());
         
-        // Aplicar reglas SÓLO si el tipo cambió o si es la primera vez que se convierte a Premium
+        
         if (tipoPrevio != u.getTipo() || u.getTipo() == TipoUsuario.PREMIUM) {
              aplicarReglasTipo(existente);
         } else {
-             aplicarReglasTipo(existente); // Aplicar siempre es más seguro
+             aplicarReglasTipo(existente); 
         }
 
         return repo.save(existente);
     }
 
-    // ---------------------------------------------------
-    //  ELIMINAR
-    // ---------------------------------------------------
     public void eliminar(Long id) {
         repo.deleteById(id);
     }
 
-    // ---------------------------------------------------
-    //  CONSULTAS ADICIONALES
-    // ---------------------------------------------------
     public List<Usuario> listarPorTipo(TipoUsuario tipo) {
         return repo.findByTipo(tipo);
     }
@@ -95,14 +69,11 @@ public class UsuarioService {
         return repo.findByFechaRegistroBetween(desde, hasta);
     }
 
-    // ---------------------------------------------------
-    //  MÉTODO AUXILIAR CORREGIDO
-    // ---------------------------------------------------
     private void aplicarReglasTipo(Usuario u) {
 
         if (u.getTipo() == TipoUsuario.ESTANDAR) {
             u.setInicioMembresia(null);
-            u.setDescuento(0.0); // Descuento cero
+            u.setDescuento(0.0); 
         }
 
         if (u.getTipo() == TipoUsuario.PREMIUM) {

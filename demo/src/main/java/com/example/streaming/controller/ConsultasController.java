@@ -23,10 +23,6 @@ public class ConsultasController {
         this.service = service;
     }
 
-    // ----------------------------------------------------
-    // 1. LISTAR ENDPOINTS (GET /consultas) - HTML VIEW
-    // Muestra un índice de todas las consultas disponibles.
-    // ----------------------------------------------------
     @GetMapping(produces = "text/html")
     public String listarConsultasHtml() {
         StringBuilder html = new StringBuilder();
@@ -47,7 +43,6 @@ public class ConsultasController {
             <body>
             """);
 
-        // 2. Barra de Navegación (Active: Consultas)
         html.append("""
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
                 <div class="container-fluid">
@@ -72,7 +67,6 @@ public class ConsultasController {
             </nav>
             """);
 
-        // 3. Contenido Principal - Listado de Consultas
         html.append("""
             <div class="container mt-4">
                 <h1 class="mb-4 text-info">📊 Estadísticas y Consultas Específicas</h1>
@@ -142,45 +136,28 @@ public class ConsultasController {
         return html.toString();
     }
 
-
-    // ----------------------------------------------------
-    // 2. GET /consultas/contenidos-populares?n=10 (JSON)
-    // ----------------------------------------------------
     @GetMapping(value = "/contenidos-populares", produces = "application/json")
     public List<Contenido> listarContenidosConMasDeNReproducciones(@RequestParam(defaultValue = "0") Long n) {
         return service.listarContenidosConMasDeNReproducciones(n);
     }
 
-    // ----------------------------------------------------
-    // 3. GET /consultas/reproducciones-usuario/{usuarioId} (JSON)
-    // ----------------------------------------------------
     @GetMapping(value = "/reproducciones-usuario/{usuarioId}", produces = "application/json")
     public List<Reproduccion> listarReproduccionesPorUsuario(@PathVariable Long usuarioId) {
         return service.listarReproduccionesPorUsuario(usuarioId);
     }
 
-    // ----------------------------------------------------
-    // 4. GET /consultas/promedio-calificaciones/{contenidoId} (JSON)
-    // ----------------------------------------------------
     @GetMapping(value = "/promedio-calificaciones/{contenidoId}", produces = "application/json")
     public ResponseEntity<Double> calcularPromedioCalificaciones(@PathVariable Long contenidoId) {
         Double promedio = service.calcularPromedioCalificaciones(contenidoId);
         return ResponseEntity.ok(promedio != null ? promedio : 0.0);
     }
 
-    // ----------------------------------------------------
-    // 5. GET /consultas/reproducciones-fecha?fecha=YYYY-MM-DD (JSON)
-    // ----------------------------------------------------
     @GetMapping(value = "/reproducciones-fecha", produces = "application/json")
     public List<Reproduccion> listarReproduccionesPorFecha(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha) {
         return service.listarReproduccionesPorFecha(fecha);
     }
     
-    // ----------------------------------------------------
-    // 6. GET /consultas/usuarios-por-tipo/{tipo} (JSON)
-    // Implementa la Consulta 5, usando el Enum TipoUsuario.
-    // ----------------------------------------------------
     @GetMapping(value = "/usuarios-por-tipo/{tipo}", produces = "application/json")
     public List<Usuario> listarUsuariosPorTipo(@PathVariable TipoUsuario tipo) {
         return service.listarUsuariosPorTipo(tipo);

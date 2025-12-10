@@ -3,8 +3,8 @@ package com.example.streaming.repository;
 import com.example.streaming.model.Usuario;
 import com.example.streaming.model.TipoUsuario;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query; // Importación necesaria
-import org.springframework.data.repository.query.Param; // Importación necesaria
+import org.springframework.data.jpa.repository.Query; 
+import org.springframework.data.repository.query.Param; 
 
 import java.time.LocalDate;
 import java.util.List;
@@ -17,7 +17,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
     List<Usuario> findByTipo(TipoUsuario tipo);
     
-    // ⭐ MÉTODO AÑADIDO/CORREGIDO (Para la Consulta B) ⭐
     // Esta consulta JPQL maneja los tres filtros de forma opcional.
     // Si un parámetro es NULL, la condición se vuelve true, ignorando ese filtro.
     @Query("SELECT u FROM Usuario u WHERE " +

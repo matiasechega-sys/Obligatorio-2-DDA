@@ -22,7 +22,6 @@ public class UsuarioController {
         this.service = service;
     }
 
-    // --- ENDPOINT PRINCIPAL: LISTADO Y VISTA HTML ---
     @GetMapping(produces = "text/html")
     public String listarHtml() {
         List<Usuario> usuarios = service.listar();
@@ -44,7 +43,6 @@ public class UsuarioController {
             <body>
         """);
 
-        // Navbar
         html.append("""
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
                 <div class="container-fluid">
@@ -69,7 +67,6 @@ public class UsuarioController {
             </nav>
         """);
 
-        // Tabla de usuarios
         html.append("""
             <div class="container mt-4">
                 <h1 class="mb-4 text-primary">Gestión de Usuarios</h1>
@@ -95,7 +92,6 @@ public class UsuarioController {
                                 <tbody>
         """.formatted(usuarios.size()));
 
-        // Filas
         for (Usuario u : usuarios) {
             String tipoClass = u.getTipo() == TipoUsuario.PREMIUM ? "badge bg-success" : "badge bg-secondary";
             String descuento = String.format("%.0f%%", u.getDescuento() * 100);
@@ -112,7 +108,6 @@ public class UsuarioController {
             html.append("</tr>");
         }
 
-        // Footer con endpoints
         html.append("""
                                 </tbody>
                             </table>
@@ -139,8 +134,6 @@ public class UsuarioController {
 
         return html.toString();
     }
-
-    // --- JSON ENDPOINTS ---
 
     @PostMapping(produces = "application/json")
     public ResponseEntity<Usuario> crear(@Valid @RequestBody Usuario usuario) {

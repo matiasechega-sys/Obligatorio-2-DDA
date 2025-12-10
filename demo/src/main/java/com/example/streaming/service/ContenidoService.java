@@ -75,15 +75,6 @@ public class ContenidoService {
         contenidoRepository.deleteById(id);
     }
 
-    // ---------------------------------------------------
-    // NUEVA LÓGICA: VALIDACIÓN DE ACCESO
-    // ---------------------------------------------------
-
-    /**
-     * Valida si un usuario específico tiene permiso para acceder a un contenido.
-     * Si el contenido es exclusivo para Premium y el usuario es Estándar,
-     * lanza AccesoDenegadoException.
-     */
     public void validarAcceso(Long usuarioId, Long contenidoId) {
 
         // 1. Obtener Entidades (usando los métodos de servicio para manejar NotFoundException)

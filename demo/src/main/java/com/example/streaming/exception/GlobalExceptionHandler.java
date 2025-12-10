@@ -1,4 +1,4 @@
-package com.example.streaming.exception; // 👈 PAQUETE DONDE ESTÁN DEFINIDAS LAS EXCEPCIONES
+package com.example.streaming.exception; 
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -6,11 +6,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HomeController {
 
-    /**
-     * Maneja la solicitud GET a la raíz (/).
-     * Devuelve una página HTML con un diseño Estético Claro para el menú de la API.
-     * @return String con el contenido HTML de la página de inicio.
-     */
     @GetMapping("/")
     public String homeHtml() {
         return """

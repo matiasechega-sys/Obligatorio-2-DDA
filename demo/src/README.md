@@ -35,8 +35,7 @@ Sigue estos pasos para ejecutar el proyecto en tu entorno local.
 
 1.  **Clonar Repositorio:**
     ```bash
-    git clone [[https://docs.github.com/es/repositories/creating-and-managing-repositories/quickstart-for-repositories](https://docs.github.com/es/repositories/creating-and-managing-repositories/quickstart-for-repositories)]
-    cd nombre-del-proyecto-backend
+    git clone https://github.com/matiasechega-sys/Obligatorio-2-DDA
     ```
 2.  **Base de Datos:**
     * Asegúrate de que el servidor **MySQL** esté en ejecución.

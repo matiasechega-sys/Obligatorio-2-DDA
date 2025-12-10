@@ -19,9 +19,6 @@ public class ContenidoWebController {
     @Autowired
     private ContenidoService contenidoService;
 
-    // =========================================================
-    // 1. LISTAR CONTENIDOS
-    // =========================================================
     @GetMapping(produces = "text/html")
     @ResponseBody
     public String listarContenidos(Model model) {
@@ -36,7 +33,6 @@ public class ContenidoWebController {
         html.append("<div class='container mt-4'>");
         html.append("<h1 class='mb-4 text-primary'>🎬 Gestión de Contenidos (ABM)</h1>");
 
-        // FLASH MESSAGES
         Object mensaje = model.getAttribute("mensaje");
         Object error = model.getAttribute("error");
 
@@ -62,7 +58,6 @@ public class ContenidoWebController {
         html.append("<a href='/admin/contenidos/nuevo' class='btn btn-success shadow-sm'>➕ Nuevo Contenido</a>");
         html.append("</div>");
 
-        // TABLA
         html.append("<div class='card shadow'>");
         html.append("<div class='card-header bg-primary text-white'><h4 class='mb-0'>Total: ")
                 .append(contenidos.size()).append("</h4></div>");
@@ -120,9 +115,6 @@ public class ContenidoWebController {
         return html.toString();
     }
 
-    // =========================================================
-    // 2. FORMULARIO NUEVO / EDITAR
-    // =========================================================
     @GetMapping({"/nuevo", "/editar/{id}"})
     @ResponseBody
     public String mostrarFormulario(@PathVariable(required = false) Long id) {
@@ -187,9 +179,6 @@ public class ContenidoWebController {
         return html.toString();
     }
 
-    // =========================================================
-    // 3. GUARDAR
-    // =========================================================
     @PostMapping("/guardar")
     public String guardarContenido(
             @RequestParam(required = false) Long id,
@@ -230,9 +219,6 @@ public class ContenidoWebController {
         return "redirect:/admin/contenidos";
     }
 
-    // =========================================================
-    // 4. ELIMINAR
-    // =========================================================
     @GetMapping("/eliminar/{id}")
 public String eliminarContenido(@PathVariable Long id, RedirectAttributes ra) {
 
@@ -247,10 +233,6 @@ public String eliminarContenido(@PathVariable Long id, RedirectAttributes ra) {
 
     return "redirect:/admin/contenidos";
 }
-
-    // =========================================================
-    // HTML HELPERS (COPIADOS DEL TUYO)
-    // =========================================================
 
     private String getHtmlHeader(String title, String customStyle) {
         return """

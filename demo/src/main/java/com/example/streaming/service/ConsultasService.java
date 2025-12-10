@@ -68,22 +68,6 @@ public class ConsultasService {
         return reproduccionRepo.findByFechaHoraBetween(inicioDia, finDia);
     }
 
-    
-    // =========================================================
-    // ⭐ CONSULTA B (5): USUARIOS POR TIPO Y FECHA (Implementación corregida) ⭐
-    // =========================================================
-    
-    /**
-     * Filtra usuarios por su tipo de suscripción y rango de fecha de registro.
-     * Este método sustituye y mejora la funcionalidad de `listarUsuariosPorTipo`.
-     * * NOTA: Requiere que `UsuarioRepository` tenga el método 
-     * `findByFiltrosMultiples(TipoUsuario tipo, LocalDate fechaDesde, LocalDate fechaHasta)`
-     * que usa @Query para manejar los nulls.
-     * * @param tipo El tipo de usuario (opcional: puede ser null).
-     * @param fechaDesde La fecha mínima de registro (opcional: puede ser null).
-     * @param fechaHasta La fecha máxima de registro (opcional: puede ser null).
-     * @return Lista de usuarios que cumplen todos los criterios aplicados.
-     */
     @Transactional(readOnly = true)
     public List<Usuario> listarUsuario(
             TipoUsuario tipo,

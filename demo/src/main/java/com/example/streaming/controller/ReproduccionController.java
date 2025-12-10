@@ -24,16 +24,9 @@ public class ReproduccionController {
         this.reproService = reproService;
     }
 
-    // -------------------------------
-    // 1. CREAR (POST) - USANDO LA ENTIDAD EN @RequestBody
-    // -------------------------------
     @PostMapping(produces = "application/json")
     public ResponseEntity<Reproduccion> registrarReproduccion(@RequestBody Reproduccion reproduccionSolicitud) {
 
-        // 🚨 CAMBIO CRÍTICO: Extraemos los IDs de los objetos anidados (Usuario y Contenido)
-        // Spring mapeará el JSON a la Entidad, pero solo los IDs estarán disponibles en los objetos anidados.
-        
-        // Verificamos que los objetos anidados existan y tengan ID antes de intentar extraerlos.
         if (reproduccionSolicitud.getUsuario() == null || reproduccionSolicitud.getUsuario().getId() == null) {
              throw new IllegalArgumentException("El campo 'usuario' con su 'id' es obligatorio.");
         }
@@ -46,7 +39,6 @@ public class ReproduccionController {
         int duracion = reproduccionSolicitud.getDuracionReproducida();
         int calificacion = reproduccionSolicitud.getCalificacion();
 
-        // ⚠️ Nota: Se asume que el Service lanzará excepciones (403, 400, 404) si hay errores.
         Reproduccion nueva = reproService.registrarReproduccion(
                 usuarioId, contenidoId, duracion, calificacion
         );
@@ -54,14 +46,10 @@ public class ReproduccionController {
         return new ResponseEntity<>(nueva, HttpStatus.CREATED);
     }
 
-    // -------------------------------
-    // 2. LISTAR TODOS - HTML VIEW
-    // -------------------------------
     @GetMapping(produces = "text/html")
     public String listarHtml() {
         List<Reproduccion> reproducciones = reproService.listarTodos();
 
-        // 1. Inicia la estructura HTML con Bootstrap
         StringBuilder html = new StringBuilder();
         html.append("""
             <!DOCTYPE html>
@@ -80,7 +68,6 @@ public class ReproduccionController {
             <body>
             """);
 
-        // 2. Barra de Navegación (Active: Reproducciones)
         html.append("""
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
                 <div class="container-fluid">
@@ -104,8 +91,6 @@ public class ReproduccionController {
                 </div>
             </nav>
             """);
-
-        // 3. Contenido Principal
         html.append("""
             <div class="container mt-4">
                 <h1 class="mb-4 text-success">Registro de Reproducciones</h1>
@@ -130,7 +115,6 @@ public class ReproduccionController {
                                 <tbody>
             """.formatted(reproducciones.size()));
 
-        // 4. Llenar la tabla con los datos de las reproducciones
         for (Reproduccion r : reproducciones) {
             String calificacionStars = formatRating(r.getCalificacion());
 
@@ -147,7 +131,6 @@ public class ReproduccionController {
             html.append("</tr>");
         }
 
-        // 5. Cierre de la estructura HTML y utilidades
         html.append("""
                                 </tbody>
                             </table>
@@ -174,59 +157,42 @@ public class ReproduccionController {
         return html.toString();
     }
     
-    // Helper para formatear la calificación
     private String formatRating(int rating) {
         StringBuilder stars = new StringBuilder();
         for (int i = 0; i < 5; i++) {
             if (i < rating) {
-                stars.append("<span class=\"rating-star\">★</span>"); // Estrella llena
+                stars.append("<span class=\"rating-star\">★</span>"); 
             } else {
-                stars.append("<span>☆</span>"); // Estrella vacía
+                stars.append("<span>☆</span>"); 
             }
         }
         return stars.toString();
     }
 
-    // -------------------------------
-    // 3. OBTENER POR ID - JSON RESPONSE
-    // -------------------------------
     @GetMapping(value = "/{id}", produces = "application/json")
     public ResponseEntity<Reproduccion> obtenerPorId(@PathVariable Long id) {
         return ResponseEntity.ok(reproService.obtenerPorId(id));
     }
 
-    // -------------------------------
-    // 4. ACTUALIZAR - USANDO LA ENTIDAD EN @RequestBody
-    // -------------------------------
     @PutMapping(value = "/{id}", produces = "application/json")
     public ResponseEntity<Reproduccion> actualizar(
             @PathVariable Long id,
             @RequestBody Reproduccion body) {
         
-        // Se asume que el Service validará los campos antes de actualizar
         return ResponseEntity.ok(reproService.actualizarReproduccion(id, body));
     }
 
-    // -------------------------------
-    // 5. ELIMINAR - JSON RESPONSE
-    // -------------------------------
     @DeleteMapping(value = "/{id}", produces = "application/json")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void eliminar(@PathVariable Long id) {
         reproService.eliminar(id);
     }
 
-    // -------------------------------
-    // 6. LISTAR POR USUARIO - JSON RESPONSE
-    // -------------------------------
     @GetMapping(value = "/usuario/{id}", produces = "application/json")
     public List<Reproduccion> listarPorUsuario(@PathVariable Long id) {
         return reproService.listarPorUsuario(id);
     }
 
-    // -------------------------------
-    // 7. RANGO DE FECHAS - JSON RESPONSE
-    // -------------------------------
     @GetMapping(value = "/rango", produces = "application/json")
     public ResponseEntity<?> listarPorRangoFecha(
             @RequestParam String inicio,

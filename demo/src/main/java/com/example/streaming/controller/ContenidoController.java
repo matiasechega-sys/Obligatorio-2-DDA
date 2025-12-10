@@ -23,13 +23,10 @@ public class ContenidoController {
         return contenidoService.crearContenido(contenido);
     }
 
-    // --- 2. LISTAR TODOS (GET) - HTML VIEW ---
-    // URL: GET /contenidos
     @GetMapping(produces = "text/html")
     public String listarHtml() {
         List<Contenido> contenidos = contenidoService.listarContenidos();
 
-        // 1. Inicia la estructura HTML con Bootstrap
         StringBuilder html = new StringBuilder();
         html.append("""
             <!DOCTYPE html>
@@ -48,7 +45,6 @@ public class ContenidoController {
             <body>
             """);
 
-        // 2. Barra de Navegación (Active: Contenidos)
         html.append("""
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
                 <div class="container-fluid">
@@ -73,7 +69,6 @@ public class ContenidoController {
             </nav>
             """);
 
-        // 3. Contenido Principal
         html.append("""
             <div class="container mt-4">
                 <h1 class="mb-4 text-warning">Gestión de Contenidos (Películas y Series)</h1>
@@ -100,7 +95,6 @@ public class ContenidoController {
                                 <tbody>
             """.formatted(contenidos.size()));
 
-        // 4. Llenar la tabla con los datos de los contenidos
         for (Contenido c : contenidos) {
             String premiumBadge = c.isExclusivoPremium()
                     ? "<span class=\"badge bg-danger premium-tag\">Sí</span>"
@@ -118,7 +112,6 @@ public class ContenidoController {
             html.append("</tr>");
         }
 
-        // 5. Cierre de la estructura HTML y utilidades
         html.append("""
 </tbody>
 </table>
@@ -142,27 +135,21 @@ public class ContenidoController {
         return html.toString();
     }
 
-    // --- 3. OBTENER POR ID (GET) - JSON RESPONSE ---
-    // URL: GET /contenidos/{id}
     @GetMapping(value = "/{id}", produces = "application/json")
     public Contenido obtener(@PathVariable Long id) {
-        // Llama al método del servicio que lanza NotFoundException si no existe
         return contenidoService.obtenerPorId(id);
     }
 
-    // ⭐ 4. ACTUALIZAR (PUT) - JSON RESPONSE ⭐
-    // URL: PUT /contenidos/{id}
     @PutMapping(value = "/{id}", produces = "application/json")
     public Contenido actualizar(@PathVariable Long id, @RequestBody Contenido detallesContenido) {
-        // Llama al método del servicio que maneja la actualización
+
         return contenidoService.actualizarContenido(id, detallesContenido);
     }
 
-    // --- 5. ELIMINAR (DELETE) ---
-    // URL: DELETE /contenidos/{id}
+ 
     @DeleteMapping(value = "/{id}", produces = "application/json")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
-        // Llama al método del servicio que maneja la eliminación
+       
         contenidoService.eliminar(id);
         return ResponseEntity.noContent().build();
     }

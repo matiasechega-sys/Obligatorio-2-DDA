@@ -23,9 +23,6 @@ public class UsuarioWebController {
     private static final DateTimeFormatter DATE_FORMATTER =
             DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    // =========================================================
-    // 1. LISTAR USUARIOS
-    // =========================================================
     @GetMapping(produces = "text/html")
     @ResponseBody
     public String listarUsuarios(@ModelAttribute("mensaje") String mensaje,
@@ -33,7 +30,6 @@ public class UsuarioWebController {
 
         List<Usuario> usuarios = usuarioService.listar();
 
-        // 💡 CONTEO DE USUARIOS POR TIPO
         long premiumCount = usuarios.stream()
                 .filter(u -> u.getTipo() == TipoUsuario.PREMIUM)
                 .count();
@@ -47,7 +43,6 @@ public class UsuarioWebController {
         html.append("<div class='container mt-4'>");
         html.append("<h1 class='mb-4 text-primary'>👤 Gestión de Usuarios (ABM)</h1>");
 
-        // Alertas
         if (mensaje != null && !mensaje.isBlank()) {
             html.append("""
                 <div class='alert alert-success alert-dismissible fade show'>
@@ -70,7 +65,6 @@ public class UsuarioWebController {
         html.append("<a href='/admin/usuarios/nuevo' class='btn btn-success shadow-sm'>➕ Crear Nuevo Usuario</a>");
         html.append("</div>");
 
-        // Tabla
         html.append("<div class='card shadow'>");
         html.append("<div class='card-header bg-primary text-white'><h4 class='mb-0'>Total: ")
                 .append(usuarios.size()).append("</h4></div>");
@@ -132,9 +126,6 @@ public class UsuarioWebController {
 
         html.append("</tbody></table></div></div></div>");
         
-        // =========================================================
-        // APARTADO NUEVO: CONTEO DE TIPOS DE USUARIO
-        // =========================================================
         html.append("""
             <div class='row mt-4 mb-4'>
                 <div class='col-md-6'>
@@ -155,17 +146,13 @@ public class UsuarioWebController {
                 </div>
             </div>
         """.formatted(standardCount, premiumCount));
-        // =========================================================
 
-        html.append("</div>"); // Cierra div.container mt-4
+        html.append("</div>"); 
         html.append(getHtmlFooter());
 
         return html.toString();
     }
 
-    // =========================================================
-    // 2. FORMULARIO NUEVO / EDITAR
-    // =========================================================
     @GetMapping({"/nuevo", "/editar/{id}"})
     @ResponseBody
     public String mostrarFormulario(@PathVariable(required = false) Long id) {
@@ -198,7 +185,6 @@ public class UsuarioWebController {
         html.append(createInputField("email", "email", "Email",
                 u.getEmail(), true));
 
-        // Select tipo
         html.append("""
             <div class='mb-3'>
                 <label class='form-label'>Tipo de Usuario</label>
@@ -226,9 +212,6 @@ public class UsuarioWebController {
         return html.toString();
     }
 
-    // =========================================================
-    // 3. GUARDAR
-    // =========================================================
     @PostMapping("/guardar")
     public String guardar(
             @RequestParam(required = false) Long id,
@@ -258,9 +241,6 @@ public class UsuarioWebController {
         return "redirect:/admin/usuarios";
     }
 
-    // =========================================================
-    // 4. ELIMINAR
-    // =========================================================
     @GetMapping("/eliminar/{id}")
     public String eliminar(@PathVariable Long id, RedirectAttributes ra) {
         usuarioService.eliminar(id);
@@ -268,9 +248,6 @@ public class UsuarioWebController {
         return "redirect:/admin/usuarios";
     }
 
-    // =========================================================
-    // HTML HELPERS (IGUALES A CONTENIDO)
-    // =========================================================
 
     private String getHtmlHeader(String title, String customStyle) {
         return """
