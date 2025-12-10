@@ -1,0 +1,17 @@
+C:\Users\Usuario\Desktop\prueba\demo\src\main\java\com\example\streaming\controller\ContenidoController.java
+C:\Users\Usuario\Desktop\prueba\demo\src\main\java\com\example\streaming\controller\HomeController.java
+C:\Users\Usuario\Desktop\prueba\demo\src\main\java\com\example\streaming\controller\ReproduccionController.java
+C:\Users\Usuario\Desktop\prueba\demo\src\main\java\com\example\streaming\controller\UsuarioController.java
+C:\Users\Usuario\Desktop\prueba\demo\src\main\java\com\example\streaming\exception\GlobalExceptionHandler.java
+C:\Users\Usuario\Desktop\prueba\demo\src\main\java\com\example\streaming\exception\NotFoundException.java
+C:\Users\Usuario\Desktop\prueba\demo\src\main\java\com\example\streaming\model\Contenido.java
+C:\Users\Usuario\Desktop\prueba\demo\src\main\java\com\example\streaming\model\Reproduccion.java
+C:\Users\Usuario\Desktop\prueba\demo\src\main\java\com\example\streaming\model\TipoUsuario.java
+C:\Users\Usuario\Desktop\prueba\demo\src\main\java\com\example\streaming\model\Usuario.java
+C:\Users\Usuario\Desktop\prueba\demo\src\main\java\com\example\streaming\repository\ContenidoRepository.java
+C:\Users\Usuario\Desktop\prueba\demo\src\main\java\com\example\streaming\repository\ReproduccionRepository.java
+C:\Users\Usuario\Desktop\prueba\demo\src\main\java\com\example\streaming\repository\UsuarioRepository.java
+C:\Users\Usuario\Desktop\prueba\demo\src\main\java\com\example\streaming\service\ContenidoService.java
+C:\Users\Usuario\Desktop\prueba\demo\src\main\java\com\example\streaming\service\ReproduccionService.java
+C:\Users\Usuario\Desktop\prueba\demo\src\main\java\com\example\streaming\service\UsuarioService.java
+C:\Users\Usuario\Desktop\prueba\demo\src\main\java\com\example\streaming\StreamingApplication.java
